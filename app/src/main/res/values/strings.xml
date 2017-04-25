@@ -1,0 +1,116 @@
+<resources>
+    <string name="app_name">Formulizer</string>
+
+    <!-- Common ones-->
+    <string name="ok">OK</string>
+    <string name="action_search_title">Search</string>
+    <string name="dialog_delete_content">Are You Sure You Really Want To Delete This?</string>
+    <string name="dialog_delete_title">Confirm Delete!!</string>
+    <string name="dialog_delete_positive">Yes Sure!</string>
+    <string name="dialog_delete_negative">No Please!</string>
+    <string name="dialog_delete_progress_title">Delete</string>
+    <string name="dialog_delete_progress_content">Please Wait..</string>
+
+    <!-- Preference Strings -->
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_api_profile_title">Api Profile</string>
+    <string name="pref_api_profile_key">api_profile</string>
+
+    <string name="pref_api_online_label">Online API</string>
+    <string name="pref_api_online_value">http://formulizerapi.herokuapp.com/api/</string>
+
+    <string name="pref_api_offline_label">Offline API</string>
+    <string name="pref_api_offline_value">http://192.168.0.106:5555/api/</string>
+
+    <string name="pref_token_title">TOKEN</string>
+    <string name="pref_token_key">api_token</string>
+
+    <!-- Strings related to login and Signup -->
+    <string name="prompt_email">E-mail</string>
+    <string name="prompt_password">Password</string>
+    <string name="prompt_signin">Sign In</string>
+    <string name="prompt_signup">Sign Up</string>
+    <string name="prompt_error">Error</string>
+    <string name="prompt_success">Success</string>
+    <string name="prompt_success_signin">You Have Logged In Successfully!!</string>
+    <string name="prompt_facebook">Connect Facebook</string>
+    <string name="prompt_noaccount">Don\'t have an account?</string>
+
+    <string name="error_invalid_email">Please Enter Valid Email Address!</string>
+    <string name="error_incorrect_login">User Does Not Exist!</string>
+    <string name="error_email_required">Email Cannot Be Left Empty!</string>
+    <string name="error_password_required">Password Cannot Be Left Empty!</string>
+    <string name="error_internet_required">Your Not Connect to Internet! Please Check Connection!</string>
+    <string name="error_server_offline">Our Server Seems To Be in Full Load Please Try Again!</string>
+
+    <string name="login_dialog_title">Logging You In</string>
+    <string name="login_dialog_content">Please Wait</string>
+
+    <!-- Tabs And NavBar Strings -->
+    <string name="formula_tab_title">Formulas</string>
+    <string name="customer_tab_title">Customers</string>
+    <string name="add_customer_title">Add Customer</string>
+
+    <!-- Fragment Strings -->
+    <string name="formula_fragment_title">Formulas</string>
+    <string name="customer_fragment_title">Customers</string>
+    <string name="title_activity_add_edit_customer">AddEditCustomer</string>
+
+    <!-- Add Formula Strings-->
+    <string name="formula_stepOne_title">Step 1</string>
+    <string name="formula_name_hint">Formula Name</string>
+    <string name="formula_company_hint">Select Company</string>
+    <string name="formula_base_hint">Select Base</string>
+    <string name="formula_type_hint">Select Type</string>
+    <string name="formula_Public">Public</string>
+    <string name="formula_Private">Private</string>
+    <string name="formula_Tinter">Tinter</string>
+    <string name="formula_Weight">Weight</string>
+    <string name="formula_description_hint">Description</string>
+
+    <string name="label_formula">Formula</string>
+    <string name="formula_label_details">Details</string>
+    <string name="formula_label_base">Base :</string>
+    <string name="formula_label_name">Name :</string>
+    <string name="formula_label_owner">Owner :</string>
+    <string name="formula_label_company">Company :</string>
+    <string name="formula_label_type">Type :</string>
+    <string name="formula_label_access">Access :</string>
+    <string name="formula_label_date">Date :</string>
+    <string name="formula_label_description">Description :</string>
+    <string name="formula_label_total">Total :</string>
+
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_edit">Edit</string>
+    <string name="action_add_row">Add Row</string>
+
+    <string name="formula_name_error">Formula Name Is Required!</string>
+    <string name="formula_company_error">Company Name Is Required!</string>
+    <string name="formula_base_error">Base Is Required!</string>
+    <string name="formula_type_error">Type Name Is Required!</string>
+    <string name="formula_description_error">Formula Description Is Required!</string>
+    <string name="formula_tinter_error">Tinter Is Required!</string>
+    <string name="formula_weight_error">Weight Is Required!</string>
+    <string name="formula_save_error">Something Went Wrong Saving Formula! Please Try Again</string>
+    <string name="formula_select_error">"Something Went wrong! Please Select Another Formula!"</string>
+    <string name="formula_save_success">Formula Saved Successfully</string>
+    <string name="formula_delete_success">Formula Deleted Successfully!</string>
+    <string name="formula_delete_error">Sorry we couldn\'t Delete your formula! Try Again!</string>
+
+
+    <string name="formula_type_custom">Custom</string>
+    <string name="formula_type_standard">Standard</string>
+
+    <!-- Add Customer -->
+    <string name="customer_name_hint">Cuatomer Name</string>
+    <string name="customer_contact_hint">Cuatomer Contact</string>
+    <string name="customer_name_error">Customer Name Is Required!</string>
+    <string name="customer_contact_error">Customer Contact Is Required!</string>
+    <string name="customer_contact_10_error">Contact Must be 10 Digit Long!</string>
+    <string name="customer_save_error">Something Went Wrong Saving Customer! Please Try Again</string>
+    <string name="customer_select_error">"Something Went wrong! Please Select Another Customer!"</string>
+    <string name="customer_save_success">Customer Saved Successfully</string>
+</resources>

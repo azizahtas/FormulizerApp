@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="@android:color/white"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/formula_add_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/formula_name_hint"
+                app:met_floatingLabel="highlight"
+                app:met_singleLineEllipsis="true"/>
+
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/formula_add_company"
+                android:hint="@string/formula_company_hint"
+                app:met_floatingLabel="highlight"
+                />
+
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/formula_add_base"
+                android:hint="@string/formula_base_hint"
+                app:met_floatingLabel="highlight"
+                />
+
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/formula_add_type"
+                android:hint="@string/formula_type_hint"
+                app:met_floatingLabel="highlight"
+                />
+
+            <Switch
+                android:text="@string/formula_Private"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/formula_add_access"
+                android:textSize="18sp"
+                android:padding="5dp"/>
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/formula_add_description"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:hint="@string/formula_description_hint"
+                app:met_floatingLabel="highlight"
+                android:layout_weight="0.27"
+                android:inputType="textMultiLine"/>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

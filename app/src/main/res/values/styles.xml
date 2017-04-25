@@ -1,0 +1,45 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+
+
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+    </style>    <!-- New . -->
+    <style name="AppTheme" parent="AppTheme.Base">
+
+    </style>
+
+    <style name="LoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="FormulaCardViewStyle" parent="AppTheme.Base">
+        <item name="cardCornerRadius">2dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="cardBackgroundColor">@android:color/white</item>
+    </style>
+    <style name="FormulaTabViewStyle" parent="AppTheme.Base">
+        <item name="tabTextColor">@android:color/holo_blue_bright</item>
+        <item name="tabSelectedTextColor">@android:color/white</item>
+    </style>
+
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+<!--Material Form Wizard Styles-->
+    <style name="CenteredCompleteButtonStyle" parent="MSNavBarButton.Complete">
+        <item name="android:gravity">center</item>
+    </style>
+    <style name="StepperLayoutThemeWithCenteredCompleteButton" parent="MSDefaultStepperLayoutTheme">
+        <item name="ms_completeNavigationButtonStyle">@style/CenteredCompleteButtonStyle</item>
+    </style>
+</resources>

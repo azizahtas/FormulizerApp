@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="pref_api_option_labels">
+        <item>@string/pref_api_online_label</item>
+        <item>@string/pref_api_offline_label</item>
+    </array>
+    <array name="pref_api_option_values">
+        <item>@string/pref_api_online_value</item>
+        <item>@string/pref_api_offline_value</item>
+    </array>
+
+    <array name="formula_type_items">
+        <item>@string/formula_type_custom</item>
+        <item>@string/formula_type_standard</item>
+    </array>
+</resources>

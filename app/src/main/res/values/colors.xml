@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="cpb_grey">#ffdedede</color>
+    <color name="cpb_blue">#ff0099cc</color>
+    <color name="cpb_blue_dark">#ff00719b</color>
+    <color name="cpb_red">#ffff4444</color>
+    <color name="cpb_red_dark">#ffcd3a3a</color>
+    <color name="cpb_green">#ff99cc00</color>
+    <color name="cpb_green_dark">#ff6d9b00</color>
+    <color name="cpb_white">@android:color/white</color>
+<!-- Indigo primary Red Secondary -->
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorSecondary">#B2B2B2</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#fdfdfd</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccentDark">#f50057</color>
+
+    <color name="blurred_grey">#1A0012b9</color>
+
+    <!-- Purple primary Green Secondary -->
+<!--
+    <color name="colorPrimary">#9B26AF</color>
+    <color name="colorPrimaryDark">#691A99</color>
+    <color name="textColorPrimary">#FFFFFF</color>
+    <color name="windowBackground">#C5CAE9</color>
+    <color name="navigationBarColor">#000000</color>
+    <color name="colorAccent">#68EFAD</color>
+    <color name="colorAccentDark">#00E676</color>
+-->
+    <!--Colors For Customer Items-->
+    <color name="separator_line">#9e9e9e</color>
+    <color name="title">#222222</color>
+    <color name="subtitle">#999999</color>
+</resources>

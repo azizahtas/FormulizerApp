@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.stark.formulizer">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Activities.MainActivity"
+            android:configChanges="orientation"
+            android:launchMode="singleTop"
+            android:parentActivityName=".Activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:theme="@style/LoginTheme"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".Activities.SettingsActivity" />
+        <activity android:name=".Activities.SignupActivity" />
+        <activity android:name=".Activities.CustomerDetailsActivity" />
+        <activity android:name=".Activities.FormulaDetailsActivity" />
+        <activity android:name=".Activities.AddFormula" />
+        <activity android:name=".Activities.AddCustomer" />
+        <activity android:name=".Activities.CustomerFormulasActivity"></activity>
+    </application>
+
+</manifest>

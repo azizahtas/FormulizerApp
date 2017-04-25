@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/keyline1"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/formula_add_tinter_table">
+
+        </TableLayout>
+        </RelativeLayout>
+    </ScrollView>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/formula_add_tinter_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_add_white_18dp"
+        app:fabSize="normal"
+        android:elevation="@dimen/fab_elevation_rest"/>
+</android.support.design.widget.CoordinatorLayout>

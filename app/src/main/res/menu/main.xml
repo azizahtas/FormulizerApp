@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/title_activity_settings"
+        android:orderInCategory="100"
+        app:showAsAction="never"
+        />
+    <item
+        android:id="@+id/action_search"
+        android:title="@string/action_search_title"
+        android:orderInCategory="200"
+        android:icon="@drawable/ic_search_white_18dp"
+        app:showAsAction="ifRoom"
+        />
+    <item android:title="Login"
+        android:id="@+id/action_login"
+        app:showAsAction="never"
+        android:enabled="false"
+        />
+    <item android:title="Logout"
+        android:id="@+id/action_logout"
+        app:showAsAction="never"
+        android:enabled="false"
+        />
+
+</menu>
