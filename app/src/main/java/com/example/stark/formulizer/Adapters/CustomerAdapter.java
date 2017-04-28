@@ -30,6 +30,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
 
     public interface CustomerAdapterOnClickHandler {
         void onListItemClick(CustomerListModel customer);
+        void onListItemLongClick(String customerId, View view, int position);
     }
 
     public CustomerAdapter(CustomerAdapterOnClickHandler clickHandler){ this.mCkickHandler = clickHandler;}
@@ -38,19 +39,28 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
          LinearLayout customerItemLayout;
         TextView formulaCountView;
         TextView customerNameView;
+         CustomerListModel customer;
          public CustomerViewHolder(View itemView){
             super(itemView);
              customerItemLayout = (LinearLayout)  itemView.findViewById(R.id.customers_item_layout);
             formulaCountView = (TextView) itemView.findViewById(R.id.customer_item_formula_count);
             customerNameView = (TextView) itemView.findViewById(R.id.customer_item_name);
         }
-         void bind(final CustomerListModel customer, final CustomerAdapterOnClickHandler handler){
+         void bind(final int position, final CustomerAdapterOnClickHandler handler){
+             customer = customers.get(position);
             formulaCountView.setText(customer.getCount()+"");
              customerNameView.setText(customer.getName());
              itemView.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View view) {
                      handler.onListItemClick(customer);
+                 }
+             });
+             itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                 @Override
+                 public boolean onLongClick(View v) {
+                     handler.onListItemLongClick(customer.getId(),itemView,position);
+                     return true;
                  }
              });
          }
@@ -71,7 +81,7 @@ public class CustomerAdapter extends RecyclerView.Adapter<CustomerAdapter.Custom
     @Override
     public void onBindViewHolder(CustomerViewHolder holder, int position) {
         if(customers !=null) {
-           holder.bind(customers.get(position),mCkickHandler);
+           holder.bind(position,mCkickHandler);
         }
     }
     @Override

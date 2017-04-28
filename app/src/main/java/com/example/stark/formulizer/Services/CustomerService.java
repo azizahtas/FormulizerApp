@@ -12,6 +12,7 @@ import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -22,20 +23,23 @@ import retrofit2.http.Path;
  */
 
 public interface CustomerService {
-    @GET("customer/search/"+Constraints.CUSTOMER+"/{term}/{page}")
-    Call<PagedGeneralResponseModel<CustomerListModel>> searchPagedCustomers(@Path("term") String Term,@Path("page") int Page);
+    @GET("customer/search/" + Constraints.CUSTOMER + "/{term}/{page}")
+    Call<PagedGeneralResponseModel<CustomerListModel>> searchPagedCustomers(@Path("term") String Term, @Path("page") int Page);
 
-    @GET("customer/search/"+Constraints.CUSTOMER_FORMULA+"/{cid}/{term}")
+    @GET("customer/search/" + Constraints.CUSTOMER_FORMULA + "/{cid}/{term}")
     Call<GeneralResponseModel<FormulaModel>> searchCustomerFormulas(@Path("cid") String CId, @Path("term") String Term);
 
     @GET("customer/page/{page}")
     Call<PagedGeneralResponseModel<CustomerListModel>> getAllPagedCustomers(@Path("page") int Page);
 
-   // @GET("customer/customerformulas/{cid}/{page}")
+    // @GET("customer/customerformulas/{cid}/{page}")
     @GET("customer/customerformulas/{cid}")
     Call<GeneralResponseModel<CustomerModel>> getCustomerFormulas(@Path("cid") String CId);
-   //Call<GeneralResponseModel<CustomerModel>> getCustomerFormulas(@Path("cid") String CId,@Path("page") int Page);
+    //Call<GeneralResponseModel<CustomerModel>> getCustomerFormulas(@Path("cid") String CId,@Path("page") int Page);
 
     @POST("customer")
-    Call<GeneralResponseModel<String>> addCustomer( @Body CustomerDetailsModel newFormula);
+    Call<GeneralResponseModel<String>> addCustomer(@Body CustomerDetailsModel newFormula);
+
+    @DELETE("customer/Id/{id}")
+    Call<GeneralResponseModel<String>> deleteCustomer(@Path("id") String id);
 }

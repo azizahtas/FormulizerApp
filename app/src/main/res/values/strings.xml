@@ -113,4 +113,6 @@
     <string name="customer_save_error">Something Went Wrong Saving Customer! Please Try Again</string>
     <string name="customer_select_error">"Something Went wrong! Please Select Another Customer!"</string>
     <string name="customer_save_success">Customer Saved Successfully</string>
+    <string name="customer_delete_success">Customer Deleted Successfully!</string>
+    <string name="customer_delete_error">Sorry we couldn\'t Delete that customer! Try Again!</string>
 </resources>
