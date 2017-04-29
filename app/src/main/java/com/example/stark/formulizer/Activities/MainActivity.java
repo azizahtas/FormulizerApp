@@ -31,7 +31,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity{
     PreferenceReader prf;
     boolean isLoggedIn =false;
-    private boolean isSearchOpened = false;
+
     private EditText editSearch;
 
     CustomerFragment customerFragment;
@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity{
 
     PageAdapter _adapter;
     ViewPager _viewPager;
+    private boolean isSearchOpened = false;
     MenuItem mSearchaction;
 
     @BindView(R.id.shared_fab) FloatingActionButton mSharedFab;

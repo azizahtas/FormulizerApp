@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <TextView
+            android:text="Sample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/customer_formula_added_name"
+            android:textSize="18sp"
+            android:paddingRight="23dp"
+            android:paddingLeft="5dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            />
+    </android.support.v7.widget.CardView>
+    <Button
+        android:id="@+id/customer_formula_added_action_delete"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ic_clear_white_18dp"
+        android:backgroundTint="@color/colorAccent"
+        android:layout_gravity="end"/>
+</FrameLayout>

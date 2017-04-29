@@ -21,7 +21,7 @@
     <string name="pref_api_online_value">http://formulizerapi.herokuapp.com/api/</string>
 
     <string name="pref_api_offline_label">Offline API</string>
-    <string name="pref_api_offline_value">http://192.168.0.106:5555/api/</string>
+    <string name="pref_api_offline_value">http://192.168.0.101:5555/api/</string>
 
     <string name="pref_token_title">TOKEN</string>
     <string name="pref_token_key">api_token</string>
@@ -82,6 +82,8 @@
     <string name="formula_label_total">Total :</string>
 
     <string name="action_save">Save</string>
+    <string name="action_add">Add</string>
+    <string name="action_clear">Clear</string>
     <string name="action_delete">Delete</string>
     <string name="action_cancel">Cancel</string>
     <string name="action_edit">Edit</string>
