@@ -3,6 +3,7 @@ package com.example.stark.formulizer.Services;
 import com.example.stark.formulizer.Models.CustomerDetailsModel;
 import com.example.stark.formulizer.Models.CustomerListModel;
 import com.example.stark.formulizer.Models.CustomerModel;
+import com.example.stark.formulizer.Models.FormulaListModel;
 import com.example.stark.formulizer.Models.FormulaModel;
 import com.example.stark.formulizer.Models.GeneralResponseModel;
 import com.example.stark.formulizer.Models.PagedGeneralResponseModel;
@@ -16,6 +17,7 @@ import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 /**
@@ -39,6 +41,9 @@ public interface CustomerService {
 
     @POST("customer")
     Call<GeneralResponseModel<String>> addCustomer(@Body CustomerDetailsModel newFormula);
+
+    @PUT("customer/customerformulas/{cid}")
+    Call<GeneralResponseModel<String>> addFromulas(@Path("cid") String CId,@Body List<String> newFormulas);
 
     @DELETE("customer/Id/{id}")
     Call<GeneralResponseModel<String>> deleteCustomer(@Path("id") String id);

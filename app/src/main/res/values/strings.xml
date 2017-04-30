@@ -21,7 +21,7 @@
     <string name="pref_api_online_value">http://formulizerapi.herokuapp.com/api/</string>
 
     <string name="pref_api_offline_label">Offline API</string>
-    <string name="pref_api_offline_value">http://192.168.0.101:5555/api/</string>
+    <string name="pref_api_offline_value">http://192.168.0.103:5555/api/</string>
 
     <string name="pref_token_title">TOKEN</string>
     <string name="pref_token_key">api_token</string>
@@ -116,5 +116,7 @@
     <string name="customer_select_error">"Something Went wrong! Please Select Another Customer!"</string>
     <string name="customer_save_success">Customer Saved Successfully</string>
     <string name="customer_delete_success">Customer Deleted Successfully!</string>
+    <string name="customer_formulas_save_success">Customer Formulas Saved Successfully!</string>
+    <string name="customer_formulas_save_error">Something Went Wrong! Customer Formulas Cannot Be Saved!</string>
     <string name="customer_delete_error">Sorry we couldn\'t Delete that customer! Try Again!</string>
 </resources>

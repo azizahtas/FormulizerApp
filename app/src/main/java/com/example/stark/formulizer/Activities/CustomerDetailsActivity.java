@@ -23,13 +23,16 @@ import com.example.stark.formulizer.Adapters.FromulaCardAdapter;
 import com.example.stark.formulizer.Controllers.FormulizerClient;
 import com.example.stark.formulizer.Models.CustomerListModel;
 import com.example.stark.formulizer.Models.CustomerModel;
+import com.example.stark.formulizer.Models.FormulaListModel;
 import com.example.stark.formulizer.Models.FormulaModel;
+import com.example.stark.formulizer.Models.FormulasListModelCollection;
 import com.example.stark.formulizer.Models.GeneralResponseModel;
 import com.example.stark.formulizer.R;
 import com.example.stark.formulizer.Services.CustomerService;
 import com.example.stark.formulizer.Utilities.Constraints;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -78,7 +81,7 @@ public class CustomerDetailsActivity extends AppCompatActivity implements Formul
         if(callerIntent.hasExtra(Constraints.CUSTOMER_LIST_MODEL)){
             selectedCustomer = gs.fromJson(callerIntent.getStringExtra(Constraints.CUSTOMER_LIST_MODEL),CustomerListModel.class);
             toolbar.setTitle(selectedCustomer.getName());
-            getData(1,selectedCustomer.getId());
+            getData(selectedCustomer.getId());
         }
         else{
             showToast("Something Went wrong! Please Select Another Formula!");
@@ -86,7 +89,7 @@ public class CustomerDetailsActivity extends AppCompatActivity implements Formul
         }
     }
 
-    public void getData(int page,String cId) {
+    public void getData(String cId) {
        // Call<GeneralResponseModel<CustomerModel>> call = customerService.getCustomerFormulas(cId,page);
         Call<GeneralResponseModel<CustomerModel>> call = customerService.getCustomerFormulas(cId);
         call.enqueue(new Callback<GeneralResponseModel<CustomerModel>>() {
@@ -199,6 +202,15 @@ public class CustomerDetailsActivity extends AppCompatActivity implements Formul
         Gson b = new Gson();
         String content = b.toJson(selectedCustomer);
         addFormulaIntent.putExtra(Constraints.CUSTOMER_LIST_MODEL, content);
+
+        List<FormulaListModel> oldFormulas = new ArrayList<>(customerFormulas.size());
+        for(int i =0; i < customerFormulas.size();i++){
+            oldFormulas.add(new FormulaListModel(customerFormulas.get(i).getId(),customerFormulas.get(i).getName()));
+        }
+        FormulasListModelCollection newColl = new FormulasListModelCollection(oldFormulas);
+        String oldFormulasContent = b.toJson(newColl);
+
+        addFormulaIntent.putExtra(Constraints.CUSTOMER_FORMULAS_LIST_MODEL, oldFormulasContent);
         startActivity(addFormulaIntent);
     }
     @Override
@@ -232,5 +244,11 @@ public class CustomerDetailsActivity extends AppCompatActivity implements Formul
     public boolean onPrepareOptionsMenu(Menu menu) {
         mSearchaction = menu.findItem(R.id.action_search);
         return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData(selectedCustomer.getId());
     }
 }

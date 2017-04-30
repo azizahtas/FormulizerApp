@@ -2,6 +2,7 @@ package com.example.stark.formulizer.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,11 +25,15 @@ import com.example.stark.formulizer.Adapters.CustomerFormulasAddAdapter;
 import com.example.stark.formulizer.Adapters.CustomerFormulasGridAdapter;
 import com.example.stark.formulizer.Adapters.FromulaCardAdapter;
 import com.example.stark.formulizer.Controllers.FormulizerClient;
+import com.example.stark.formulizer.Listeners.EndlessRecyclerViewScrollListener;
 import com.example.stark.formulizer.Models.CustomerListModel;
 import com.example.stark.formulizer.Models.FormulaListModel;
 import com.example.stark.formulizer.Models.FormulaModel;
+import com.example.stark.formulizer.Models.FormulasListModelCollection;
+import com.example.stark.formulizer.Models.GeneralResponseModel;
 import com.example.stark.formulizer.Models.PagedGeneralResponseModel;
 import com.example.stark.formulizer.R;
+import com.example.stark.formulizer.Services.CustomerService;
 import com.example.stark.formulizer.Services.FormulaService;
 import com.example.stark.formulizer.Utilities.Constraints;
 import com.google.gson.Gson;
@@ -47,18 +52,24 @@ import retrofit2.Response;
 
 public class CustomerFormulasActivity extends AppCompatActivity implements CustomerFormulasAddAdapter.CustomerFormulasAddAdapterOnClickHandler,CustomerFormulasGridAdapter.CustomerFormulasGridAdapterOnClickHandler {
 
-    FormulizerClient fclient ;
+    FormulizerClient fclient;
+    CustomerService customerService;
+    FormulaService formulaService;
+
     CustomerFormulasAddAdapter fAdapter;
     CustomerFormulasGridAdapter CfAdapter;
-    FormulaService formulaService;
     private GridLayoutManager layoutManager;
     private GridLayoutManager formulasAddedlayoutManager;
     Gson gs;
     CustomerListModel selectedCustomer;
     List<FormulaModel> formulas = null;
     List<FormulaListModel> addedFormulas = null;
+    List<FormulaListModel> oldFormulas = null;
+    FormulasListModelCollection oldFormulasColl = null;
     MaterialEditText editSearch;
     Button clear,save;
+    private SwipeRefreshLayout swipeLayout;
+    private EndlessRecyclerViewScrollListener scrollListener;
 
     RecyclerView customerFormulasAddRV;
     RecyclerView customerFormulasAddedRV;
@@ -72,9 +83,17 @@ public class CustomerFormulasActivity extends AppCompatActivity implements Custo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_formulas);
-        addedFormulas = new ArrayList<>(100);
+        addedFormulas = new ArrayList<>();
+        //oldFormulas = new ArrayList<>();
         customerFormulasAddRV = (RecyclerView) findViewById(R.id.customer_formulas_add_rv);
         customerFormulasAddedRV = (RecyclerView) findViewById(R.id.customer_formulas_added_list_rv);
+        swipeLayout = (SwipeRefreshLayout) findViewById(R.id.customer_formulas_add_rv_swipe);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshItems();
+            }
+        });
         clear = (Button) findViewById(R.id.customer_formulas_clear_action);
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,15 +121,28 @@ public class CustomerFormulasActivity extends AppCompatActivity implements Custo
         });
         editSearch.requestFocus();
         layoutManager = new GridLayoutManager(CustomerFormulasActivity.this,1,LinearLayoutManager.VERTICAL,false);
-        formulasAddedlayoutManager = new GridLayoutManager(CustomerFormulasActivity.this,4,LinearLayoutManager.VERTICAL,false);
+        formulasAddedlayoutManager = new GridLayoutManager(CustomerFormulasActivity.this,2,LinearLayoutManager.VERTICAL,false);
         fclient = new FormulizerClient(CustomerFormulasActivity.this);
         formulaService = fclient.getClient().create(FormulaService.class);
+        customerService = fclient.getClient().create(CustomerService.class);
+        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                // Triggered only when new data needs to be appended to the list
+                // Add whatever code is needed to append new items to the bottom of the list
+                if(page <= numOfpagesOnServer) {
+                    appendData(page);
+                }
+                Log.e("Page Number", page + "");
+                Log.e("Items Count", totalItemsCount + "");
+            }
+        };
         getData(1);
         fAdapter = new CustomerFormulasAddAdapter(this);
         CfAdapter = new CustomerFormulasGridAdapter(this);
         customerFormulasAddRV.setLayoutManager(layoutManager);
         customerFormulasAddRV.setHasFixedSize(true);
-        //customerFormulasAddRV.addOnScrollListener(scrollListener);
+        customerFormulasAddRV.addOnScrollListener(scrollListener);
         customerFormulasAddRV.setAdapter(fAdapter);
         customerFormulasAddedRV.setLayoutManager(formulasAddedlayoutManager);
         customerFormulasAddedRV.setHasFixedSize(true);
@@ -118,8 +150,12 @@ public class CustomerFormulasActivity extends AppCompatActivity implements Custo
         customerFormulasAddedRV.setAdapter(CfAdapter);
         gs= new Gson();
         Intent caller = getIntent();
-        if(caller.hasExtra(Constraints.CUSTOMER_LIST_MODEL)){
+        if(caller.hasExtra(Constraints.CUSTOMER_LIST_MODEL) && caller.hasExtra(Constraints.CUSTOMER_FORMULAS_LIST_MODEL)){
             selectedCustomer = gs.fromJson(caller.getStringExtra(Constraints.CUSTOMER_LIST_MODEL),CustomerListModel.class);
+            oldFormulasColl = gs.fromJson(caller.getStringExtra(Constraints.CUSTOMER_FORMULAS_LIST_MODEL), FormulasListModelCollection.class);
+            oldFormulas = oldFormulasColl.getOldFormulas();
+            addedFormulas.addAll(oldFormulas);
+            CfAdapter.setFormulaData(addedFormulas);
         }
     }
 
@@ -135,7 +171,7 @@ public class CustomerFormulasActivity extends AppCompatActivity implements Custo
                     numOfpagesOnServer = response.body().getData().getPages();
                     currentPage = response.body().getData().getPage();
                     // Load complete
-                    //swipeLayout.setRefreshing(false);
+                    swipeLayout.setRefreshing(false);
                 }
             }
 
@@ -146,6 +182,31 @@ public class CustomerFormulasActivity extends AppCompatActivity implements Custo
                 Toast.makeText(CustomerFormulasActivity.this,"Server Not Accessable! Make Sure Your Connected To Internet!",Toast.LENGTH_LONG).show();
             }
         });
+    }
+    public void appendData(final int page) {
+        Call<PagedGeneralResponseModel<FormulaModel>> call = formulaService.getPagedFormulas(page);
+        call.enqueue(new Callback<PagedGeneralResponseModel<FormulaModel>>() {
+            @Override
+            public void onResponse(Call<PagedGeneralResponseModel<FormulaModel>> call, Response<PagedGeneralResponseModel<FormulaModel>> response) {
+                if(response.body()!=null && response.isSuccessful()){
+                    formulas.addAll(response.body().getData().getDocs());
+                    Log.e("Page No : ",page+"");
+                    Log.e("Data Size Appended: ",response.body().getData().getDocs().size()+"");
+                    fAdapter.setFormulaData(formulas);
+                    numOfpagesOnServer = response.body().getData().getPages();
+                    currentPage = response.body().getData().getPage();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<PagedGeneralResponseModel<FormulaModel>> call, Throwable t) {
+                Log.e("From Formula Fragment", t.toString());
+                Toast.makeText(CustomerFormulasActivity.this,"Server Not Accessible! Make Sure Your Connected To Internet!",Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    public void refreshItems(){
+        getData(1);
     }
     public void searchFormulaPersonal(String term, int page){
         search = true;
@@ -175,7 +236,28 @@ public class CustomerFormulasActivity extends AppCompatActivity implements Custo
         CfAdapter.setFormulaData(addedFormulas);
     }
     public void Save(){
+        List<String> newFormulas = new ArrayList<>(addedFormulas.size());
+        for(int i=0; i <addedFormulas.size();i++){
+            newFormulas.add(addedFormulas.get(i).getId());
+        }
+        Call<GeneralResponseModel<String>> call = customerService.addFromulas(selectedCustomer.getId(),newFormulas);
+        call.enqueue(new Callback<GeneralResponseModel<String>>() {
+            @Override
+            public void onResponse(Call<GeneralResponseModel<String>> call, Response<GeneralResponseModel<String>> response) {
+                if (response.body().isSuccess()) {
+                    showToast(getResources().getString(R.string.customer_formulas_save_success));
+                    finish();
+                }
+                else{
+                    showToast(getResources().getString(R.string.customer_formulas_save_success));
+                }
+            }
 
+            @Override
+            public void onFailure(Call<GeneralResponseModel<String>> call, Throwable t) {
+                showToast(getResources().getString(R.string.error_server_offline));
+            }
+        });
     }
 
     @Override
@@ -208,5 +290,9 @@ public class CustomerFormulasActivity extends AppCompatActivity implements Custo
         addedFormulas.remove(addedFormulas.indexOf(formula));
         Toast.makeText(CustomerFormulasActivity.this,"You Deleted "+formula.getName(),Toast.LENGTH_SHORT).show();
         CfAdapter.setFormulaData(addedFormulas);
+    }
+    private void showToast(String message) {
+        Toast t = Toast.makeText(CustomerFormulasActivity.this,message,Toast.LENGTH_LONG);
+        t.show();
     }
 }

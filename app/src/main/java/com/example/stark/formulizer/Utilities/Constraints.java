@@ -3,6 +3,7 @@ package com.example.stark.formulizer.Utilities;
 public class Constraints {
     public static final String CUSTOMER_MODEL = "CUSTOMER_MODEL";
     public static final String CUSTOMER_LIST_MODEL = "CUSTOMER_LIST_MODEL";
+    public static final String CUSTOMER_FORMULAS_LIST_MODEL = "CUSTOMER_FORMULA_LIST_MODEL";
     public static final String FORMULA_MODEL = "FORMULA_MODEL";
     public static final String CUSTOMER = "CUSTOMER";
     public static final String CUSTOMER_FORMULA = "CUSTOMER_FORMULA";

@@ -3,11 +3,13 @@ package com.example.stark.formulizer.Models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by aziz_ on 29-04-2017.
  */
 
-public class FormulaListModel {
+public class FormulaListModel implements Serializable{
     @SerializedName("_id")
     @Expose
     private String id;
