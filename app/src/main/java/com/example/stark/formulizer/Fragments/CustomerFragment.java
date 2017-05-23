@@ -35,6 +35,7 @@ import com.example.stark.formulizer.Utilities.Constraints;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -69,6 +70,7 @@ public class CustomerFragment extends Fragment implements Serializable,
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        customers = new ArrayList<>();
         fclient = new FormulizerClient(container.getContext());
         this.context = container.getContext();
         fragmentView =  inflater.inflate(R.layout.fragment, container, false);

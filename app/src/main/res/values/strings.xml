@@ -21,7 +21,7 @@
     <string name="pref_api_online_value">http://formulizerapi.herokuapp.com/api/</string>
 
     <string name="pref_api_offline_label">Offline API</string>
-    <string name="pref_api_offline_value">http://192.168.0.103:5555/api/</string>
+    <string name="pref_api_offline_value">http://192.168.1.101:5555/api/</string>
 
     <string name="pref_token_title">TOKEN</string>
     <string name="pref_token_key">api_token</string>

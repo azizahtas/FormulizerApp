@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -34,6 +35,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -64,6 +66,7 @@ public class CustomerDetailsActivity extends AppCompatActivity implements Formul
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_details);
         ButterKnife.bind(this);
+        customerFormulas = new ArrayList<>();
         selectedCustomer = new CustomerListModel();
         toolbar.setTitleTextColor(getResources().getColor(R.color.cpb_white));
         toolbar.setTitle(" ");
@@ -75,6 +78,23 @@ public class CustomerDetailsActivity extends AppCompatActivity implements Formul
         customerFormulaRv.setLayoutManager(layoutManager);
         customerFormulaRv.setHasFixedSize(true);
         customerFormulaRv.setAdapter(fAdapter);
+        //Swipe to delete
+        ItemTouchHelper swipeToDeleteTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+                if(direction == ItemTouchHelper.LEFT)
+                {
+                    showToast("Swiped Left "+viewHolder.getAdapterPosition());
+                }
+            }
+        });
+        swipeToDeleteTouchHelper.attachToRecyclerView(customerFormulaRv);
 
         gs = new Gson();
         Intent callerIntent = getIntent();
@@ -116,6 +136,7 @@ public class CustomerDetailsActivity extends AppCompatActivity implements Formul
         });
     }
     public void getSearchData(final String term){
+        Pattern p = Pattern.compile(term,Pattern.CASE_INSENSITIVE);
         Call<GeneralResponseModel<FormulaModel>> call = customerService.searchCustomerFormulas(selectedCustomer.getId(),term);
         call.enqueue(new Callback<GeneralResponseModel<FormulaModel>>() {
             @Override

@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DrawableUtils;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -183,6 +184,7 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
         else{
             addRow("","",-1);
         }
+        convertToOneLiter();
     }
 
     @OnClick(R.id.formula_details_save_action)
@@ -360,6 +362,7 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
 
         List<TinterModel> newTinters = new ArrayList<>(tinterTable.getChildCount());
         double sum = 0;
+        convertToOneLiter();
         for (int i=0;i<tinterTable.getChildCount()-1;i++){
             TableRow row = (TableRow) tinterTable.getChildAt(i);
             MaterialEditText t = (MaterialEditText) row.getVirtualChildAt(0);
@@ -372,7 +375,9 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
         selectedFormula.settWeight(sum);
         totalValue.setText(String.format(Locale.ENGLISH,"%.2f",sum));
     }
-
+    private void convertToOneLiter(){
+        calculateTotal(1000);
+    }
     private void addRow(String T, String W, int index){
         TableRow tr = new TableRow(this);
 
@@ -391,10 +396,9 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
         weight.setTextColor(state);
 
         ImageButton delete = new ImageButton(this);
-        delete.setBackground(getResources().getDrawable(R.drawable.ic_chevron_right));
+        delete.setBackground(getResources().getDrawable(R.drawable.ic_clear_white_18dp));
         delete.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.1f));
         delete.setId(tinterTable.getChildCount());
-
         tinter.setText(T);
         weight.setText(W);
         tr.addView(tinter);
@@ -405,6 +409,7 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
             tinterTable.addView(tr);
         }
         else tinterTable.addView(tr,index);
+        //convertToOneLiter();
     }
     private void addTotalRow(){
         TableRow tr = new TableRow(this);
@@ -429,7 +434,7 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
         totalTinter.setTextColor(state);
 
         ImageButton show = new ImageButton(this);
-        show.setBackground(getResources().getDrawable(R.drawable.ic_chevron_right));
+        show.setBackground(getResources().getDrawable(R.drawable.ic_clear_white_18dp));
         show.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.1f));
         show.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
@@ -456,11 +461,16 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
         else if(value >= 1){
             for (int i = 0; i < selectedFormula.getTintersCount(); i++) {
                 TableRow row = (TableRow) tinterTable.getChildAt(i);
-                MaterialEditText qty = (MaterialEditText) row.getVirtualChildAt(1);
-                double qtyVal = selectedFormula.getTinters().get(i).getQty();
-                double total = ((qtyVal/1000) * value);
-                qty.setText(String.format(Locale.ENGLISH,"%.2f",total));
-                sum += total;
+                try {
+                    MaterialEditText qty = (MaterialEditText) row.getVirtualChildAt(1);
+                    double qtyVal = selectedFormula.getTinters().get(i).getQty();
+                    double total = ((qtyVal / 1000) * value);
+                    qty.setText(String.format(Locale.ENGLISH, "%.2f", total));
+                    sum += total;
+                }
+                catch (ClassCastException ex){
+                    Log.e("Exception Class", row.getVirtualChildAt(1).getClass().toString() + "Value Of I ="+i);
+                }
             }
         }
         totalValue.setText(String.format(Locale.ENGLISH,"%.2f",sum));

@@ -27,6 +27,7 @@ import com.example.stark.formulizer.Utilities.Constraints;
 import com.google.gson.Gson;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -69,6 +70,7 @@ public class FormulaFragment extends Fragment implements Serializable,FromulaCar
                 refreshItems();
             }
         });
+        formulas = new ArrayList<>();
 
         layoutManager = new LinearLayoutManager(container.getContext(),LinearLayoutManager.VERTICAL,false);
         scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {

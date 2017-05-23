@@ -107,7 +107,7 @@ public class FormulaStepTwoFragment extends ButterKnifeFragment implements Block
         weight.setFloatingLabel(MaterialEditText.FLOATING_LABEL_HIGHLIGHT);
 
         ImageButton delete = new ImageButton(context);
-        delete.setBackground(getResources().getDrawable(R.drawable.ic_chevron_left));
+        delete.setBackground(getResources().getDrawable(R.drawable.ic_clear_white_18dp));
         delete.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.1f));
         delete.setId(tinterTable.getChildCount());
         Toast.makeText(context,"childrenCount "+tinterTable.getChildCount(),Toast.LENGTH_SHORT).show();
@@ -119,9 +119,6 @@ public class FormulaStepTwoFragment extends ButterKnifeFragment implements Block
                 //tinterTable.removeViewAt(v.getId());
             }
         });
-
-        tinter.setText("BK801");
-        weight.setText("52.36");
         tr.addView(tinter);
         tr.addView(weight);
         tr.addView(delete);

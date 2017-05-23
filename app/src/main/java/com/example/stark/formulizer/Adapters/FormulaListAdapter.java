@@ -42,7 +42,8 @@ public class FormulaListAdapter extends RecyclerView.Adapter<FormulaListAdapter.
             formulaName= (TextView) itemView.findViewById(R.id.formula_name);
         }
         void bind(final FormulaModel model, final FormulaListAdapterOnClickHandler handler){
-            formulaName.setText(model.getName());
+            String Formula = model.getName() + " - " + model.getBase() + " - " + model.getCompany();
+            formulaName.setText(Formula);
             formulaName.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

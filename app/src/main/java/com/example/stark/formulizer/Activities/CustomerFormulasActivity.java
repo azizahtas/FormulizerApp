@@ -83,7 +83,9 @@ public class CustomerFormulasActivity extends AppCompatActivity implements Custo
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer_formulas);
+        formulas = new ArrayList<>();
         addedFormulas = new ArrayList<>();
+        oldFormulas = new ArrayList<>();
         //oldFormulas = new ArrayList<>();
         customerFormulasAddRV = (RecyclerView) findViewById(R.id.customer_formulas_add_rv);
         customerFormulasAddedRV = (RecyclerView) findViewById(R.id.customer_formulas_added_list_rv);
@@ -148,6 +150,7 @@ public class CustomerFormulasActivity extends AppCompatActivity implements Custo
         customerFormulasAddedRV.setHasFixedSize(true);
         //customerFormulasAddRV.addOnScrollListener(scrollListener);
         customerFormulasAddedRV.setAdapter(CfAdapter);
+
         gs= new Gson();
         Intent caller = getIntent();
         if(caller.hasExtra(Constraints.CUSTOMER_LIST_MODEL) && caller.hasExtra(Constraints.CUSTOMER_FORMULAS_LIST_MODEL)){
@@ -210,25 +213,39 @@ public class CustomerFormulasActivity extends AppCompatActivity implements Custo
     }
     public void searchFormulaPersonal(String term, int page){
         search = true;
+        if(!term.equals("")) {
         getSearchData(term,page);
+        }
+        else {
+            getData(1);
+        }
     }
     public void getSearchData(String term, int page){
-        Call<PagedGeneralResponseModel<FormulaModel>> call = formulaService.searchPagedFormulasPersonal(term,page);
-        call.enqueue(new Callback<PagedGeneralResponseModel<FormulaModel>>() {
-            @Override
-            public void onResponse(Call<PagedGeneralResponseModel<FormulaModel>> call, Response<PagedGeneralResponseModel<FormulaModel>> response) {
-                formulas = response.body().getData().getDocs();
-                Log.e("Data Size : ",response.body().getData().getDocs().size()+"");
-                fAdapter.setFormulaData(formulas);
-            }
+            Call<PagedGeneralResponseModel<FormulaModel>> call = formulaService.searchPagedFormulasPersonal(term, page);
+            call.enqueue(new Callback<PagedGeneralResponseModel<FormulaModel>>() {
+                @Override
+                public void onResponse(Call<PagedGeneralResponseModel<FormulaModel>> call, Response<PagedGeneralResponseModel<FormulaModel>> response) {
+                    if (response.isSuccessful()) {
+                        if (response.body() != null) {
+                            formulas = response.body().getData().getDocs();
+                            Log.e("Data Size : ", response.body().getData().getDocs().size() + "");
+                            fAdapter.setFormulaData(formulas);
+                        } else {
+                            showToast("Nothing Found On Server Side!");
+                        }
+                    } else {
+                        showToast("Something Went Wrong! Please Try Searching Again!");
+                    }
+                }
 
-            @Override
-            public void onFailure(Call<PagedGeneralResponseModel<FormulaModel>> call, Throwable t) {
+                @Override
+                public void onFailure(Call<PagedGeneralResponseModel<FormulaModel>> call, Throwable t) {
 // Log error here since request failed
-                Log.e("From Customer Formulas", t.toString());
-                Toast.makeText(CustomerFormulasActivity.this,"Server Not Accessable! Make Sure Your Connected To Internet!",Toast.LENGTH_LONG).show();
-            }
-        });
+                    Log.e("From Customer Formulas", t.toString());
+                    Toast.makeText(CustomerFormulasActivity.this, "Server Not Accessable! Make Sure Your Connected To Internet!", Toast.LENGTH_LONG).show();
+                }
+            });
+
     }
 
     public void Clear(){
