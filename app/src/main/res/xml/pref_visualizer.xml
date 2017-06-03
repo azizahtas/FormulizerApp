@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <ListPreference
-        android:defaultValue="@string/pref_api_offline_value"
+        android:defaultValue="@string/pref_api_online_value"
         android:title="@string/pref_api_profile_title"
         android:key="@string/pref_api_profile_key"
         android:entries="@array/pref_api_option_labels"

@@ -258,12 +258,13 @@
                     android:textColor="@android:color/white" />
 
                 <TextView
-                    android:text="12-10-1995"
+                    android:hint="@string/formula_date_hint"
+                    android:textColor="@drawable/edit_text_selector"
                     android:layout_width="0dp"
                     android:layout_weight="0.6"
                     android:layout_height="wrap_content"
                     android:id="@+id/formula_details_date"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                    android:textSize="20sp"/>
             </LinearLayout>
 
             <LinearLayout

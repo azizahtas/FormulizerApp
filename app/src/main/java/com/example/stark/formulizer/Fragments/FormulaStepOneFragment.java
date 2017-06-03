@@ -11,7 +11,9 @@ import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
+import com.example.stark.formulizer.Activities.FormulaDetailsActivity;
 import com.example.stark.formulizer.Listeners.OnFormulaAddNextStepListener;
 import com.example.stark.formulizer.Listeners.OnNavigationBarListener;
 import com.example.stark.formulizer.Models.FormulaModel;
@@ -23,29 +25,28 @@ import com.stepstone.stepper.BlockingStep;
 import com.stepstone.stepper.Step;
 import com.stepstone.stepper.StepperLayout;
 import com.stepstone.stepper.VerificationError;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
+import org.joda.time.DateTime;
+
 import butterknife.BindView;
-import butterknife.OnCheckedChanged;
-import butterknife.OnClick;
 
-/**
- * Created by Stark on 06-03-2017.
- */
-
-public class FormulaStepOneFragment extends ButterKnifeFragment implements BlockingStep {
+public class FormulaStepOneFragment extends ButterKnifeFragment implements BlockingStep , DatePickerDialog.OnDateSetListener {
 
     private static final String LAYOUT_RESOURCE_ID_ARG_KEY = "messageResourceId";
 
-    private String fname="",fcompany="",fdescription = "",ftype="",fbase="",faccess="";
+    private String fname="",fcompany="",fdescription = "",ftype="",fbase="",faccess="",fdate="";
     boolean firstTime = true;
     FormulaModel model = new FormulaModel();
+    DatePickerDialog dpd;
     @BindView(R.id.formula_add_name) MaterialEditText fName;
     @BindView(R.id.formula_add_company) MaterialBetterSpinner fCompany;
     @BindView(R.id.formula_add_base) MaterialBetterSpinner fBase;
     @BindView(R.id.formula_add_type) MaterialBetterSpinner fType;
     @BindView(R.id.formula_add_access) Switch fAccess;
     @BindView(R.id.formula_add_description) MaterialEditText fDescription;
+    @BindView(R.id.formula_add_date) TextView fDate;
 
     @Nullable
     private OnNavigationBarListener OnNavigationBarListener;
@@ -72,7 +73,7 @@ public class FormulaStepOneFragment extends ButterKnifeFragment implements Block
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         String[] comapnyList = {"Esdee","Nippon","Premila","Bilux"};
         ArrayAdapter<String> companyListAdapter = new ArrayAdapter<>(view.getContext(),
@@ -88,6 +89,20 @@ public class FormulaStepOneFragment extends ButterKnifeFragment implements Block
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(view.getContext(),
                 android.R.layout.simple_dropdown_item_1line, typeList);
         fType.setAdapter(typeAdapter);
+        DateTime myDate = new DateTime();
+        dpd = DatePickerDialog.newInstance(
+                FormulaStepOneFragment.this,
+                myDate.getYear(),
+                myDate.getMonthOfYear(),
+                myDate.getDayOfMonth()
+        );
+        fDate.setOnClickListener(new TextView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dpd.vibrate(true);
+               dpd.show(getActivity().getFragmentManager(),"");
+            }
+        });
         fAccess.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -104,13 +119,14 @@ public class FormulaStepOneFragment extends ButterKnifeFragment implements Block
             ftype = savedInstanceState.getString(Constraints.FTYPE_KEY);
             faccess = savedInstanceState.getString(Constraints.FACCESS_KEY);
             fdescription = savedInstanceState.getString(Constraints.FDESCRIPTION_KEY);
-            //fCompany.setSelection(companyListAdapter.getPosition(fcompany));
+            fdate = savedInstanceState.getString(Constraints.FDATE_KEY);
         }
         fName.setText("Silkey Silver");
         fCompany.setText(comapnyList[0]);
         fBase.setText(baseList[0]);
         fType.setText(typeList[0]);
         fDescription.setText("Demo Description!");
+        fDate.setText("3/6/2017");
         updateNavigationBar();
     }
 
@@ -183,6 +199,7 @@ public class FormulaStepOneFragment extends ButterKnifeFragment implements Block
         outState.putString(Constraints.FTYPE_KEY, ftype);
         outState.putString(Constraints.FACCESS_KEY, faccess);
         outState.putString(Constraints.FDESCRIPTION_KEY, fdescription);
+        outState.putString(Constraints.FDATE_KEY, fdate);
         super.onSaveInstanceState(outState);
     }
 
@@ -201,8 +218,13 @@ public class FormulaStepOneFragment extends ButterKnifeFragment implements Block
         model.setType(fType.getText().toString());
         model.setAccess(fAccess.getText().toString());
         model.setDesc(fDescription.getText().toString());
+        model.setDate(fDate.getText().toString());
 
         updateDataForNextStep(model);
         callback.goToNextStep();
+    }
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        fDate.setText(monthOfYear+"/"+dayOfMonth+"/"+year);
     }
 }

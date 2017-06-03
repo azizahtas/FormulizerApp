@@ -2,6 +2,7 @@ package com.example.stark.formulizer.Activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -9,9 +10,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -22,6 +25,7 @@ import com.example.stark.formulizer.Adapters.PageAdapter;
 import com.example.stark.formulizer.Fragments.CustomerFragment;
 import com.example.stark.formulizer.Fragments.FormulaFragment;
 import com.example.stark.formulizer.R;
+import com.example.stark.formulizer.Utilities.Constraints;
 import com.example.stark.formulizer.Utilities.PreferenceReader;
 import com.rengwuxian.materialedittext.MaterialEditText;
 
@@ -41,12 +45,17 @@ public class MainActivity extends AppCompatActivity{
     ViewPager _viewPager;
     private boolean isSearchOpened = false;
     MenuItem mSearchaction;
+    int pagePosition = 0;
 
     @BindView(R.id.shared_fab) FloatingActionButton mSharedFab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            pagePosition = savedInstanceState.getInt(Constraints.VIEW_PAGER_POSITION_KEY);
+        }
+
         prf = new PreferenceReader(MainActivity.this);
         isLoggedIn = !prf.getTOKEN().isEmpty();
         if(!isLoggedIn){
@@ -72,30 +81,25 @@ public class MainActivity extends AppCompatActivity{
         //Tab Layout
         TabLayout tabs = (TabLayout) findViewById(R.id.tabs);
         tabs.setupWithViewPager(_viewPager);
+        if(pagePosition == 0)  mSharedFab.setImageResource(R.drawable.ic_add_white_18dp);
+        else mSharedFab.setImageResource(R.drawable.ic_customer_add_white_18dp);
     }
-
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(Constraints.VIEW_PAGER_POSITION_KEY, pagePosition);
+        super.onSaveInstanceState(outState);
+    }
     private void setupViewPager(final ViewPager viewPager) {
         _adapter = new PageAdapter(getSupportFragmentManager());
             _adapter.addFragment(formulaFragment, getResources().getString(R.string.formula_tab_title));
             _adapter.addFragment(customerFragment, getResources().getString(R.string.customer_tab_title));
         viewPager.setAdapter(_adapter);
-        formulaFragment.shareFab(mSharedFab);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
             @Override
             public void onPageSelected(int position) {
-                switch (position){
-                    case 0:
-                        formulaFragment.shareFab(mSharedFab);
-                        customerFragment.shareFab(null);
-                        break;
-                    case 1:
-                    default:
-                        formulaFragment.shareFab(null);
-                        customerFragment.shareFab(mSharedFab);
-                        break;
-                }
+                pagePosition = position;
             }
             @Override
             public void onPageScrollStateChanged(int state) {
@@ -104,18 +108,26 @@ public class MainActivity extends AppCompatActivity{
                         mSharedFab.hide();
                         break;
                     case ViewPager.SCROLL_STATE_IDLE:
-                        switch (viewPager.getCurrentItem()){
-                            case 0:
-                                formulaFragment.shareFab(mSharedFab);
-                                customerFragment.shareFab(null);
-                                break;
-                            case 1:
-                            default:
-                                formulaFragment.shareFab(null);
-                                customerFragment.shareFab(mSharedFab);
-                                break;
-                        }
+                        if(pagePosition == 0)  mSharedFab.setImageResource(R.drawable.ic_add_white_18dp);
+                        else mSharedFab.setImageResource(R.drawable.ic_customer_add_white_18dp);
                         mSharedFab.show();
+                        break;
+                }
+            }
+        });
+
+        mSharedFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (pagePosition){
+                    case 0:
+                        Intent formula_Add_Intent = new Intent(MainActivity.this,AddFormula.class);
+                        startActivity(formula_Add_Intent);
+                        break;
+                    case 1:
+                        Intent customer_add_edit_Intent = new Intent(MainActivity.this,AddCustomer.class);
+                        startActivity(customer_add_edit_Intent);
+                    default:
                         break;
                 }
             }

@@ -127,7 +127,6 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
                 else Access.setText(getResources().getText(R.string.formula_Private));
             }
         });
-        formulaDate.setTextColor(state);
         formulaDate.setOnClickListener(new TextView.OnClickListener() {
             @Override
             public void onClick(View v) {

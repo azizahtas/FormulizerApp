@@ -50,9 +50,32 @@
                 android:hint="@string/formula_type_hint"
                 app:met_floatingLabel="highlight"
                 />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="30"
+                        android:id="@+id/formula_add_date_label"
+                        android:text="@string/formula_date_hint"
+                        android:textSize="18sp"
+                        android:padding="5dp"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="70"
+                        android:id="@+id/formula_add_date"
+                        android:text="@string/formula_date_hint"
+                        android:textSize="18sp"
+                        android:padding="5dp"
+                        />
+                </LinearLayout>
 
             <Switch
-                android:text="@string/formula_Private"
+                android:hint="@string/formula_Private"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/formula_add_access"

@@ -35,7 +35,7 @@ public class FormulaPreviewFragment extends ButterKnifeFragment implements Step 
 
     private static final String LAYOUT_RESOURCE_ID_ARG_KEY = "messageResourceId";
 
-    private String fname="",fcompany="",ftype="",fbase="",faccess="",fdesc="";
+    private String fname="",fcompany="",ftype="",fbase="",faccess="",fdesc="",fdate="";
 
     private FormulaModel newFormula;
     private Context context;
@@ -45,6 +45,7 @@ public class FormulaPreviewFragment extends ButterKnifeFragment implements Step 
     @BindView(R.id.formula_preview_type) TextView fType;
     @BindView(R.id.formula_preview_access) TextView fAccess;
     @BindView(R.id.formula_preview_desc) TextView fDesc;
+    @BindView(R.id.formula_preview_date) TextView fDate;
     @BindView(R.id.formula_preview_tinters) TableLayout tinterTable;
 
     @Nullable
@@ -79,6 +80,7 @@ public class FormulaPreviewFragment extends ButterKnifeFragment implements Step 
             ftype = savedInstanceState.getString(Constraints.FTYPE_KEY);
             faccess = savedInstanceState.getString(Constraints.FACCESS_KEY);
             fdesc = savedInstanceState.getString(Constraints.FDESCRIPTION_KEY);
+            fdate = savedInstanceState.getString(Constraints.FDATE_KEY);
         }
         updateNavigationBar();
     }
@@ -124,6 +126,7 @@ public class FormulaPreviewFragment extends ButterKnifeFragment implements Step 
         outState.putString(Constraints.FTYPE_KEY, ftype);
         outState.putString(Constraints.FACCESS_KEY, faccess);
         outState.putString(Constraints.FDESCRIPTION_KEY, fdesc);
+        outState.putString(Constraints.FDATE_KEY, fdate);
         super.onSaveInstanceState(outState);
     }
     private void addRow(String T, double Q){
@@ -153,11 +156,11 @@ public class FormulaPreviewFragment extends ButterKnifeFragment implements Step 
         fType.setText(newFormula.getType());
         fAccess.setText(newFormula.getAccess());
         fDesc.setText(newFormula.getDesc());
+        fDate.setText(newFormula.getDate());
         tinterTable.removeAllViews();
         for (int i = 0; i<newFormula.getTinters().size(); i++){
             addRow(newFormula.getTinters().get(i).getTinter(),newFormula.getTinters().get(i).getQty());
         }
-
     }
 
 

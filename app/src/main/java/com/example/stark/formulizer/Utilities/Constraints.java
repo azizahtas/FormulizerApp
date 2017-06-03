@@ -15,6 +15,8 @@ public class Constraints {
     public static final String FTYPE_KEY = "ftype_key";
     public static final String FACCESS_KEY = "faccess_key";
     public static final String FDESCRIPTION_KEY = "fdescription_key";
+    public static final String FDATE_KEY = "fdate_key";
+    public static final String VIEW_PAGER_POSITION_KEY = "view_pager_position_key";
 
     public static final String option_formula_personal = "PERSONAL_FORMULA";
     public static final String option_formula_community = "COMMUNITY_FORMULA";

@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     private TextView signup;
-    public static Button btnSignIn;
+    public  Button btnSignIn;
     private TextView account;
     private EditText email;
     private EditText password;
@@ -51,7 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         signup = (TextView)findViewById(R.id.signup);
        btnSignIn = (Button) findViewById(R.id.buttonsignin);
-        account = (TextView)findViewById(R.id.account);
         email = (EditText)findViewById(R.id.email);
         password = (EditText)findViewById(R.id.password);
 

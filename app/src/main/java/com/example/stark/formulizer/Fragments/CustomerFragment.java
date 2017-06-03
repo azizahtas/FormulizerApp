@@ -53,7 +53,6 @@ public class CustomerFragment extends Fragment implements Serializable,
     RecyclerView customerListRV;
     View fragmentView;
     private LinearLayoutManager layoutManager;
-    private FloatingActionButton mSharedFab;
     private SwipeRefreshLayout swipeLayout;
     Context context;
     CustomerService customerService;
@@ -146,25 +145,6 @@ public class CustomerFragment extends Fragment implements Serializable,
             }
         });
     }
-    public void shareFab(FloatingActionButton fab){
-        if(fab == null){
-            if(mSharedFab !=null){
-                mSharedFab.setOnClickListener(null);
-            }
-            mSharedFab = null;
-        }
-        else{
-            mSharedFab = fab;
-            mSharedFab.setImageResource(R.drawable.ic_customer_add_white_18dp);
-            mSharedFab.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent customer_add_edit_Intent = new Intent(context,AddCustomer.class);
-                    startActivity(customer_add_edit_Intent);
-                }
-            });
-        }
-    }
     public void searchCustomer(String term, int page){
         search = true;
         getSearchData(term,page);
@@ -200,7 +180,6 @@ public class CustomerFragment extends Fragment implements Serializable,
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mSharedFab = null;
     }
 
     public void Delete(final String customerId, final int position){

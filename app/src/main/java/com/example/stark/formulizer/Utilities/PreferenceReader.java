@@ -21,7 +21,7 @@ public class PreferenceReader {
     }
 
     public String getApiPath() {
-           this.API_PATH = sp.getString(context.getString(R.string.pref_api_profile_key),context.getString(R.string.pref_api_offline_value));
+           this.API_PATH = sp.getString(context.getString(R.string.pref_api_profile_key),context.getString(R.string.pref_api_online_value));
         return API_PATH;
     }
 

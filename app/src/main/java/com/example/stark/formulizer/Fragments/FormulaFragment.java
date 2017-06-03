@@ -38,7 +38,7 @@ import retrofit2.Response;
  * Created by Stark on 02-03-2017.
  */
 
-public class FormulaFragment extends Fragment implements Serializable,FromulaCardAdapter.FormulaAdapterOnClickHandler,FloatingActionButton.OnClickListener{
+public class FormulaFragment extends Fragment implements Serializable,FromulaCardAdapter.FormulaAdapterOnClickHandler{
     FormulizerClient fclient ;
     private FromulaCardAdapter fAdapter;
     RecyclerView formulaListRV;
@@ -198,30 +198,10 @@ public class FormulaFragment extends Fragment implements Serializable,FromulaCar
         startActivity(detailsIntent);
     }
 
-    public void shareFab(FloatingActionButton fab){
-        if(fab == null){
-            if(mSharedFab !=null){
-                mSharedFab.setOnClickListener(null);
-            }
-            mSharedFab = null;
-        }
-        else{
-            mSharedFab = fab;
-            mSharedFab.setImageResource(R.drawable.ic_add_white_18dp);
-            mSharedFab.setOnClickListener(this);
-        }
-    }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mSharedFab = null;
-    }
-
-    @Override
-    public void onClick(View v) {
-        Intent formula_Add_Intent = new Intent(context,AddFormula.class);
-        context.startActivity(formula_Add_Intent);
     }
 
     public void searchFormulaPersonal(String term, int page){

@@ -63,6 +63,7 @@
     <string name="formula_company_hint">Select Company</string>
     <string name="formula_base_hint">Select Base</string>
     <string name="formula_type_hint">Select Type</string>
+    <string name="formula_date_hint">Select Date</string>
     <string name="formula_Public">Public</string>
     <string name="formula_Private">Private</string>
     <string name="formula_Tinter">Tinter</string>
@@ -107,8 +108,8 @@
     <string name="formula_type_standard">Standard</string>
 
     <!-- Add Customer -->
-    <string name="customer_name_hint">Cuatomer Name</string>
-    <string name="customer_contact_hint">Cuatomer Contact</string>
+    <string name="customer_name_hint">Customer Name</string>
+    <string name="customer_contact_hint">Customer Contact</string>
     <string name="customer_name_error">Customer Name Is Required!</string>
     <string name="customer_contact_error">Customer Contact Is Required!</string>
     <string name="customer_contact_10_error">Contact Must be 10 Digit Long!</string>
