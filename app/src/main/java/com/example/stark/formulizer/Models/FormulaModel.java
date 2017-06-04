@@ -234,6 +234,13 @@ public class FormulaModel {
     public int getTintersCount() {
        return tinters.size();
     }
+    public void removeTinterAt(int index){
+        tinters.remove(index);
+    }
+    public int addTinter(TinterModel newTinter){
+        tinters.add(newTinter);
+        return getTintersCount();
+    }
 
 
     public void setTinters(List<TinterModel> tinters) {

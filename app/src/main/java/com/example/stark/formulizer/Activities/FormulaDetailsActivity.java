@@ -9,7 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DrawableUtils;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -74,6 +76,8 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
 
     boolean formulaDisabled = true;
     boolean detailsDisabled = true;
+    boolean IS_INITIAL = true;
+    boolean NOT_INITIAL = false;
 
 
     FormulaModel selectedFormula = null;
@@ -166,7 +170,7 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
     public void addRowClicked(){
         TableRow lastRow ;
         int count = tinterTable.getChildCount();
-        if(count >0){
+        if(count > 0){
             lastRow = (TableRow) tinterTable.getChildAt(count-2);
             MaterialEditText tinter = (MaterialEditText) lastRow.getVirtualChildAt(0);
             MaterialEditText weight = (MaterialEditText) lastRow.getVirtualChildAt(1);
@@ -178,10 +182,10 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
                 weight.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake_error));
                 weight.setError(getResources().getText(R.string.formula_weight_error));
             }
-            else addRow("","",count-1);
+            else addRow("","",count-1,NOT_INITIAL);
         }
         else{
-            addRow("","",-1);
+            addRow("","",-1,NOT_INITIAL);
         }
         convertToOneLiter();
     }
@@ -285,7 +289,7 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
         boolean valid = true;
         int count = tinterTable.getChildCount();
         if(count<=0){
-            addRow("","",-1);
+            addRow("","",0,IS_INITIAL);
             return false;
         }
         else if(count>0){
@@ -341,7 +345,7 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
             Desc.setText(selectedFormula.getDesc());
             for (int i=0;i<selectedFormula.getTintersCount();i++){
                 double total =selectedFormula.getTinters().get(i).getQty();
-                addRow(selectedFormula.getTinters().get(i).getTinter(),String.format(Locale.ENGLISH,"%.2f",total),-1);
+                addRow(selectedFormula.getTinters().get(i).getTinter(),String.format(Locale.ENGLISH,"%.2f",total),i,IS_INITIAL);
             }
             addTotalRow();
             disableFormula(true);
@@ -377,7 +381,8 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
     private void convertToOneLiter(){
         calculateTotal(1000);
     }
-    private void addRow(String T, String W, int index){
+
+    private void addRow(String T, String W, final int index, boolean Initial ){
         TableRow tr = new TableRow(this);
 
         MaterialEditText tinter = new MaterialEditText(this);
@@ -394,21 +399,40 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
         weight.setFloatingLabel(MaterialEditText.FLOATING_LABEL_HIGHLIGHT);
         weight.setTextColor(state);
 
-        ImageButton delete = new ImageButton(this);
-        delete.setBackground(getResources().getDrawable(R.drawable.ic_clear_white_18dp));
+        final ImageButton delete = new ImageButton(this);
+        delete.setBackground(getResources().getDrawable(R.drawable.ic_delete_black_24dp));
         delete.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.1f));
-        delete.setId(tinterTable.getChildCount());
+        delete.setId(index);
+        delete.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                View row =(View) v.getParent();
+                ViewGroup con = (ViewGroup) row.getParent();
+                con.removeView(row);
+                con.invalidate();
+                if(selectedFormula.getTintersCount()-1 <= v.getId()){
+                    selectedFormula.removeTinterAt(v.getId());
+                }
+            }
+            });
         tinter.setText(T);
         weight.setText(W);
         tr.addView(tinter);
         tr.addView(weight);
         tr.addView(delete);
         tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        if(index < 0) {
+        if(!Initial){
+            TinterModel newTinter = new TinterModel();
+            addRowInSelectedFormula(newTinter);
+            tinterTable.addView(tr,tinterTable.getChildCount()-1);
+        }
+        else{
             tinterTable.addView(tr);
         }
-        else tinterTable.addView(tr,index);
-        //convertToOneLiter();
+    }
+
+    private void addRowInSelectedFormula(TinterModel model){
+        selectedFormula.addTinter(model);
     }
     private void addTotalRow(){
         TableRow tr = new TableRow(this);

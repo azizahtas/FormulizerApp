@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Html;
 import android.text.InputType;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,7 +54,7 @@ public class FormulaStepTwoFragment extends ButterKnifeFragment implements Block
     FormulaModel model;
     @BindView(R.id.formula_add_tinter_table)
     TableLayout tinterTable;
-
+    int idx = 1;
     Context context;
     /*@BindView(R.id.formula_add_company)
     MaterialBetterSpinner fCompany;*/
@@ -96,27 +97,29 @@ public class FormulaStepTwoFragment extends ButterKnifeFragment implements Block
         TableRow tr = new TableRow(context);
         MaterialEditText tinter = new MaterialEditText(context);
         tinter.setHint("Tinter");
-        tinter.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.5f));
+        tinter.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.51f));
         tinter.setFloatingLabel(MaterialEditText.FLOATING_LABEL_HIGHLIGHT);
         tinter.setInputType(InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
 
         MaterialEditText weight = new MaterialEditText(context);
         weight.setHint("Weight");
-        weight.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.4f));
+        weight.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.41f));
         weight.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
         weight.setFloatingLabel(MaterialEditText.FLOATING_LABEL_HIGHLIGHT);
 
         ImageButton delete = new ImageButton(context);
-        delete.setBackground(getResources().getDrawable(R.drawable.ic_clear_white_18dp));
-        delete.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.1f));
-        delete.setId(tinterTable.getChildCount());
+        delete.setBackground(getResources().getDrawable(R.drawable.ic_delete_black_24dp));
+        delete.setDrawingCacheBackgroundColor(Color.RED);
+        delete.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.08f));
+        //delete.setId(tinterTable.getChildCount());
         Toast.makeText(context,"childrenCount "+tinterTable.getChildCount(),Toast.LENGTH_SHORT).show();
         delete.setOnClickListener(new ImageButton.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(context,"Button Id "+(v.getId()),Toast.LENGTH_SHORT).show();
-                //tinterTable.removeViewAt(v.getId());
+                View row =(View) v.getParent();
+                ViewGroup con = (ViewGroup) row.getParent();
+                con.removeView(row);
+                con.invalidate();
             }
         });
         tr.addView(tinter);
@@ -124,6 +127,7 @@ public class FormulaStepTwoFragment extends ButterKnifeFragment implements Block
         tr.addView(delete);
         tr.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         tinterTable.addView(tr);
+        idx++;
     }
 
     @Override
