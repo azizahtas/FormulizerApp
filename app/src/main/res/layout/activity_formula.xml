@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_formula"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.stark.formulizer.Activities.FormulaDetailsActivity"
+    android:background="@drawable/bg_formuladetails">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="56dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/formula_details_table"
+                android:layout_marginStart="@dimen/keyline1"
+                android:layout_marginEnd="@dimen/keyline1">
+
+            </TableLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="@dimen/keyline1"
+                >
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    app:met_textColor="@color/edit_text_selector"
+                    android:layout_width="0dp"
+                    android:layout_weight="0.7"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:id="@+id/formula_weight_calc"
+                    android:hint="@string/formula_Weight_In_Grams"
+                    android:textColorHint="@color/edit_text_selector"
+                    app:met_singleLineEllipsis="true"
+                    />
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="0.3"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimaryDark"
+                    android:id="@+id/formula_calculate"
+                    android:textColor="@color/cpb_white"
+                    android:text="@string/action_calc"
+                    android:textSize="22sp"
+                    android:layout_marginLeft="@dimen/keyline1"/>
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/formula_details_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:elevation="@dimen/app_bar_elevation"
+        app:title="Formula Name"
+        app:titleTextColor="@color/cpb_white"
+        app:titleMarginStart="@dimen/keyline1"
+        android:backgroundTint="#214054FF"
+        />
+
+</android.support.design.widget.CoordinatorLayout>

@@ -59,9 +59,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class FormulaDetailsActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener{
-
-    Calendar now = Calendar.getInstance();
-    DatePickerDialog dpd ;
+    DatePickerDialog dpd;
     Gson gs;
     TextView totalValue;
     MaterialEditText totalTinter;
@@ -160,6 +158,15 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
         disableFormula(formulaDisabled);
     }
 
+    @OnClick(R.id.calculate)
+    public void CalculateClicked(){
+        Intent calc = new Intent(FormulaDetailsActivity.this,FormulaActivity.class);
+        Gson b = new Gson();
+        String content = b.toJson(selectedFormula);
+        calc.putExtra(Constraints.FORMULA_MODEL, content);
+        startActivity(calc);
+    }
+
     @OnClick(R.id.EditDetailsButton)
     public void EditDetailsClicked(){
         detailsDisabled = !detailsDisabled;
@@ -187,7 +194,6 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
         else{
             addRow("","",-1,NOT_INITIAL);
         }
-        convertToOneLiter();
     }
 
     @OnClick(R.id.formula_details_save_action)
@@ -319,6 +325,9 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
     public void initData(){
         if(this.selectedFormula != null){
             DateTime myDate = new DateTime(selectedFormula.getDate());
+            Log.e("Year",myDate.getYear()+"");
+            Log.e("Month",myDate.getMonthOfYear()+"");
+            Log.e("Day",myDate.getDayOfMonth()+"");
             dpd = DatePickerDialog.newInstance(
                     FormulaDetailsActivity.this,
                     myDate.getYear(),
@@ -365,7 +374,6 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
 
         List<TinterModel> newTinters = new ArrayList<>(tinterTable.getChildCount());
         double sum = 0;
-        convertToOneLiter();
         for (int i=0;i<tinterTable.getChildCount()-1;i++){
             TableRow row = (TableRow) tinterTable.getChildAt(i);
             MaterialEditText t = (MaterialEditText) row.getVirtualChildAt(0);
@@ -378,10 +386,6 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
         selectedFormula.settWeight(sum);
         totalValue.setText(String.format(Locale.ENGLISH,"%.2f",sum));
     }
-    private void convertToOneLiter(){
-        calculateTotal(1000);
-    }
-
     private void addRow(String T, String W, final int index, boolean Initial ){
         TableRow tr = new TableRow(this);
 
@@ -449,55 +453,17 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
         totalValue.setTextSize(20);
         totalValue.setTextColor(state);
 
-        totalTinter = new MaterialEditText(this);
-        totalTinter.setHint("Formula For");
-        totalTinter.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.3f));
-        totalTinter.setFloatingLabel(MaterialEditText.FLOATING_LABEL_HIGHLIGHT);
-        totalTinter.setInputType(InputType.TYPE_CLASS_NUMBER|InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        totalTinter.setTextColor(state);
-
-        ImageButton show = new ImageButton(this);
-        show.setBackground(getResources().getDrawable(R.drawable.ic_clear_white_18dp));
-        show.setLayoutParams(new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 0.1f));
-        show.setOnClickListener(new ImageButton.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                calculateTotal(Double.parseDouble(totalTinter.getText().toString()));
-            }
-        });
-
-        calculateTotal(0);
+        calculateTotal();
         tr.addView(totalLable);
         tr.addView(totalValue);
-        tr.addView(totalTinter);
-        tr.addView(show);
         tinterTable.addView(tr);
-
     }
-    private void calculateTotal(double value){
+    private void calculateTotal(){
         double sum = 0;
-        if(value < 1) {
-            for (int i = 0; i < selectedFormula.getTintersCount(); i++) {
-                sum += selectedFormula.getTinters().get(i).getQty();
-            }
-        }
-        else if(value >= 1){
-            for (int i = 0; i < selectedFormula.getTintersCount(); i++) {
-                TableRow row = (TableRow) tinterTable.getChildAt(i);
-                try {
-                    MaterialEditText qty = (MaterialEditText) row.getVirtualChildAt(1);
-                    double qtyVal = selectedFormula.getTinters().get(i).getQty();
-                    double total = ((qtyVal / 1000) * value);
-                    qty.setText(String.format(Locale.ENGLISH, "%.2f", total));
-                    sum += total;
-                }
-                catch (ClassCastException ex){
-                    Log.e("Exception Class", row.getVirtualChildAt(1).getClass().toString() + "Value Of I ="+i);
-                }
-            }
+        for (int i = 0; i < selectedFormula.getTintersCount(); i++) {
+            sum += selectedFormula.getTinters().get(i).getQty();
         }
         totalValue.setText(String.format(Locale.ENGLISH,"%.2f",sum));
-        totalTinter.setText(String.format(Locale.ENGLISH,"%.2f",sum));
     }
     private void disableDetails(boolean b){
         Name.setEnabled(!b);
@@ -516,14 +482,13 @@ public class FormulaDetailsActivity extends AppCompatActivity implements DatePic
             TableRow row = (TableRow) tinterTable.getChildAt(i);
             row.getVirtualChildAt(0).setEnabled(!b);
             row.getVirtualChildAt(1).setEnabled(!b);
-            row.getVirtualChildAt(2).setEnabled(!b);
         }
         AddRowButton.setEnabled(!b);
     }
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-       formulaDate.setText(monthOfYear+"/"+dayOfMonth+"/"+year);
+       formulaDate.setText(year+"/"+monthOfYear+"/"+dayOfMonth);
     }
 
     private void showToast(String message) {

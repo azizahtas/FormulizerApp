@@ -24,14 +24,15 @@
         <activity
             android:name=".Activities.LoginActivity"
             android:theme="@style/LoginTheme"
-            android:windowSoftInputMode="adjustPan"></activity>
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Activities.SettingsActivity" />
         <activity android:name=".Activities.SignupActivity" />
         <activity android:name=".Activities.CustomerDetailsActivity" />
         <activity android:name=".Activities.FormulaDetailsActivity" />
         <activity android:name=".Activities.AddFormula" />
         <activity android:name=".Activities.AddCustomer" />
-        <activity android:name=".Activities.CustomerFormulasActivity"></activity>
+        <activity android:name=".Activities.CustomerFormulasActivity" />
+        <activity android:name=".Activities.FormulaActivity"></activity>
     </application>
 
 </manifest>

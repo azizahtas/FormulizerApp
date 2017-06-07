@@ -6,6 +6,7 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.UiThread;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
@@ -30,6 +31,8 @@ import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import org.joda.time.DateTime;
 
+import java.util.Calendar;
+
 import butterknife.BindView;
 
 public class FormulaStepOneFragment extends ButterKnifeFragment implements BlockingStep , DatePickerDialog.OnDateSetListener {
@@ -39,6 +42,8 @@ public class FormulaStepOneFragment extends ButterKnifeFragment implements Block
     private String fname="",fcompany="",fdescription = "",ftype="",fbase="",faccess="",fdate="";
     boolean firstTime = true;
     FormulaModel model = new FormulaModel();
+    DateTime today = new DateTime();
+    Calendar now = Calendar.getInstance();
     DatePickerDialog dpd;
     @BindView(R.id.formula_add_name) MaterialEditText fName;
     @BindView(R.id.formula_add_company) MaterialBetterSpinner fCompany;
@@ -89,12 +94,14 @@ public class FormulaStepOneFragment extends ButterKnifeFragment implements Block
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(view.getContext(),
                 android.R.layout.simple_dropdown_item_1line, typeList);
         fType.setAdapter(typeAdapter);
-        DateTime myDate = new DateTime();
+        Log.e("Day :",today.getDayOfMonth()+"");
+        Log.e("Month :",today.getMonthOfYear()+"");
+        Log.e("Year :",today.getYear()+"");
         dpd = DatePickerDialog.newInstance(
                 FormulaStepOneFragment.this,
-                myDate.getYear(),
-                myDate.getMonthOfYear(),
-                myDate.getDayOfMonth()
+                today.getYear(),
+                today.getMonthOfYear(),
+                today.getDayOfMonth()
         );
         fDate.setOnClickListener(new TextView.OnClickListener() {
             @Override
@@ -126,7 +133,7 @@ public class FormulaStepOneFragment extends ButterKnifeFragment implements Block
         fBase.setText(baseList[0]);
         fType.setText(typeList[0]);
         fDescription.setText("Demo Description!");
-        fDate.setText("3/6/2017");
+        fDate.setText(today.getDayOfMonth()+"/"+today.getMonthOfYear()+"/"+today.getYear());
         updateNavigationBar();
     }
 
@@ -225,6 +232,6 @@ public class FormulaStepOneFragment extends ButterKnifeFragment implements Block
     }
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        fDate.setText(monthOfYear+"/"+dayOfMonth+"/"+year);
+        fDate.setText(dayOfMonth+"/"+(monthOfYear+1)+"/"+year);
     }
 }

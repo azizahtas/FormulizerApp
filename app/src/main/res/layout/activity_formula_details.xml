@@ -103,15 +103,30 @@
                 android:layout_marginEnd="@dimen/keyline1">
 
             </TableLayout>
-            <Button
+            <LinearLayout
                 android:layout_marginStart="@dimen/keyline1"
                 android:layout_marginEnd="@dimen/keyline1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorPrimary"
-                android:id="@+id/formula_details_addrow"
-                android:text="Add Row"
-                android:textColor="@color/cpb_white"/>
+                android:orientation="horizontal">
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="70"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:id="@+id/formula_details_addrow"
+                    android:text="Add Row"
+                    android:textColor="@color/cpb_white"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="30"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorAccent"
+                    android:id="@+id/calculate"
+                    android:text="@string/action_calculate"
+                    android:textColor="@color/cpb_white"/>
+            </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
